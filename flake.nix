@@ -22,15 +22,18 @@
     lib = nixpkgs.lib;
   in {
     nixosConfigurations = {
-      afonso = lib.nixosSystem {
-      inherit system;
-      modules = [ 
-      ./system/configuration.nix];
+      afonso = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [ 
+          ./system/configuration.nix
+	  home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.afonso = import ./modules/home.nix;
+	  }
+        ];
       };
     };
-    home-manager.lib.homeManagerConfiguration = {
-      inherit pkgs;
-      modules = [ ./modules/home.nix ];
-    };
+
   };
 }
