@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -35,24 +35,39 @@
    pkgs.git
    pkgs.zsh
    pkgs.oh-my-zsh
+   pkgs.zsh-powerlevel10k
    pkgs.python311Packages.pip
    pkgs.thefuck
    pkgs.wine
    pkgs.appimage-run
    pkgs.fuse
    pkgs.prismlauncher
+   pkgs.killall
+   pkgs.nerdfonts
  ];
   programs.zsh = {
    enable = true;
    shellAliases = {
     vim = "nvim";
    };
-   
-   oh-my-zsh = {
-   enable = true;
-   plugins = [ "git" "thefuck"];
-   theme = "half-life";
-    };
+
+   plugins = [
+   {
+     name = "powerlevel10k";
+     src = pkgs.zsh-powerlevel10k;
+     file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+   }
+   {
+     name = "powerlevel10k-config";
+     src = ./p10k-config;
+     file = "p10k.zsh";
+   }
+   ];
+#   oh-my-zsh = {
+#   enable = true;
+#   plugins = [ "git" "thefuck"];
+#   theme = "half-life";
+#    };
    };
  home.sessionVariables = {
   # EDITOR = "vim";
